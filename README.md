@@ -75,9 +75,17 @@ graph TD
 
 ## 🧰 Technical Arsenal
 
-*   **AI/ML & Data Engineering:** Python (Pandas, PyTorch/Scikit-learn, Pytest), Time-Series Analysis, Jupyter, LLM Integration, Data Lakes (Parquet).
-*   **Cloud & Infrastructure:** AWS (Lambda, S3, DynamoDB, Athena), Terraform, Docker/Compose, LocalStack.
-*   **OT Security:** Malcolm NDR, Zeek, Scapy, Modbus/TCP, S7comm, Syslog & Event parsing.
+**AI/ML & Data Engineering**
+![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white) ![Pandas](https://img.shields.io/badge/Pandas-150458?style=flat-square&logo=pandas&logoColor=white) ![PyTorch](https://img.shields.io/badge/PyTorch-EE4C2C?style=flat-square&logo=pytorch&logoColor=white) ![scikit-learn](https://img.shields.io/badge/scikit--learn-F7931E?style=flat-square&logo=scikit-learn&logoColor=white)
+![Pytest](https://img.shields.io/badge/Pytest-0A9EDC?style=flat-square&logo=pytest&logoColor=white) ![Jupyter](https://img.shields.io/badge/Jupyter-F37626?style=flat-square&logo=jupyter&logoColor=white) ![Parquet](https://img.shields.io/badge/Parquet-50ABF1?style=flat-square) ![LLM](https://img.shields.io/badge/LLM-FF6F00?style=flat-square) ![Time Series](https://img.shields.io/badge/Time%20Series-007396?style=flat-square)
+
+**Cloud & Infrastructure**
+![AWS](https://img.shields.io/badge/AWS-FF9900?style=flat-square&logo=amazonaws&logoColor=white) ![Lambda](https://img.shields.io/badge/AWS%20Lambda-FF9900?style=flat-square&logo=awslambda&logoColor=white) ![S3](https://img.shields.io/badge/S3-569A31?style=flat-square&logo=amazons3&logoColor=white) ![DynamoDB](https://img.shields.io/badge/DynamoDB-4053D6?style=flat-square&logo=amazondynamodb&logoColor=white)
+![Athena](https://img.shields.io/badge/Athena-FF9900?style=flat-square) ![Terraform](https://img.shields.io/badge/Terraform-7B42BC?style=flat-square&logo=terraform&logoColor=white) ![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white) ![LocalStack](https://img.shields.io/badge/LocalStack-51BBFE?style=flat-square)
+
+**OT Security**
+![Malcolm NDR](https://img.shields.io/badge/Malcolm%20NDR-2F4F4F?style=flat-square) ![Zeek](https://img.shields.io/badge/Zeek-2D2D2D?style=flat-square) ![Scapy](https://img.shields.io/badge/Scapy-FF6B6B?style=flat-square) ![Modbus/TCP](https://img.shields.io/badge/Modbus%2FTCP-004466?style=flat-square)
+![S7comm](https://img.shields.io/badge/S7comm-003366?style=flat-square) ![Syslog](https://img.shields.io/badge/Syslog-FFD700?style=flat-square)
 
 ---
 
