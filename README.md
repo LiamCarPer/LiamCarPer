@@ -3,12 +3,12 @@
 
 I build end-to-end security architectures for critical infrastructure. My focus is on bridging the gap between legacy industrial protocols (Modbus, S7comm) and modern cloud-native detection pipelines.
 
-[LinkedIn](https://www.linkedin.com/in/liam-carvajal-perez/) · [Email](mailto:carvajalperezliam7@gmail.com) · Based in Spain (Open to Remote Europe)
+[LinkedIn](https://www.linkedin.com/in/liam-carvajal-perez/) · [Email](mailto:carvajalperezliam7@gmail.com) · Based in Spain (Open to Remote Europe/USA)
 
 ---
 
-## 🏗️ Integrated OT/Cloud Security Ecosystem
-I don't just build tools; I build entire environments to test how they fail. My work spans from the field device (Level 0) to the Cloud SIEM (Level 5).
+## 🏗️ Integrated OT, Cloud & Analytics Ecosystem
+I don't just build security tools; I engineer the data pipelines required to ingest, structure, and analyze high-volume industrial telemetry for advanced heuristics and ML modeling.
 
 ```mermaid
 graph TD
@@ -65,11 +65,19 @@ graph TD
 
 ---
 
+## 🧠 Applied AI & Analytical Philosophy
+
+*   **Data Quality is Paramount:** I focus heavily on the data engineering lifecycle. A predictive model in OT is useless without low-latency, highly structured telemetry.
+*   **Physics-Aware Modeling:** False positives in ICS cost downtime. I emphasize high-fidelity feature engineering (e.g., mapping TTPs to MITRE ATT&CK for ICS) to ensure models understand actual industrial context, not just statistical noise.
+*   **Research & Application:** Continuously researching the intersection of Deep Learning and Cybersecurity, including time-series anomaly detection and integrating LLMs (RAG) for automated incident response contextualization.
+
+---
+
 ## 🧰 Technical Arsenal
-*   **OT Security:** Suricata (Custom Rules), Malcolm NDR, Zeek, Scapy, Modbus/TCP, S7comm, IEC 62443 mapping.
-*   **Cloud (AWS):** Lambda (Serverless), S3 (Data Lake), DynamoDB, SNS/SQS, Athena, Glue.
-*   **Engineering:** Python (Boto3, Pandas, Pytest), Terraform, Docker/Compose, LocalStack.
-*   **Detection:** Syslog, Web, & Windows Event parsing, Stateful correlation, GeoIP/Threat-Intel enrichment.
+
+*   **AI/ML & Data Engineering:** Python (Pandas, PyTorch/Scikit-learn, Pytest), Time-Series Analysis, Jupyter, LLM Integration, Data Lakes (Parquet).
+*   **Cloud & Infrastructure:** AWS (Lambda, S3, DynamoDB, Athena), Terraform, Docker/Compose, LocalStack.
+*   **OT Security:** Malcolm NDR, Zeek, Scapy, Modbus/TCP, S7comm, Syslog & Event parsing.
 
 ---
 
@@ -79,5 +87,8 @@ graph TD
 
 ---
 
-## 🚀 Let's Secure Something
-I am looking for **Detection Engineering** or **SOC Analyst** roles where I can apply my "Purdue-to-Cloud" mindset to protect critical infrastructure.
+## 🤝 Let's Collaborate
+
+While my full-time focus is defending critical OT architectures, I spend my evenings and weekends immersed in the applied AI/ML community.
+
+I am highly active in the broader engineering space and am always open to connecting regarding joint research initiatives, open-source collaborations, and technical advisory on data engineering and predictive modeling challenges. Whether it's architecting a robust data pipeline or exploring models for anomaly detection, feel free to reach out!
