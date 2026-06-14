@@ -33,6 +33,12 @@ graph TD
 
 ## 🛠️ Featured Projects
 
+### [ICS Agentic SOC Pipeline](https://github.com/LiamCarPer/ics-agentic-soc-pipeline)
+**The Problem:** SOC analysts in OT environments drown in high-noise alerts. Generating NIST-aligned incident reports and Suricata rules manually is slow, inconsistent, and doesn't scale.
+**The Solution:** An agentic AI pipeline that detects anomalies via Isolation Forest, enriches them with RAG-augmented OT knowledge (IEC 62443, asset inventories, past incidents), and produces NIST SP 800-61 reports with custom Suricata rules — all without human intervention.
+*   **Engineering Challenge:** Built a deterministic classification layer that routes alerts to the correct analysis path before LLM invocation, eliminating token waste. Made the agent **LLM-agnostic** — swap between GPT-4o-mini and local Ollama models by changing two env vars, no code changes needed.
+*   **Stack:** Python, LangChain/LangGraph, ChromaDB, FastAPI, scikit-learn, OpenAI/OpenRouter, Pytest. 25 deterministic tests pass in CI without API keys.
+
 ### [Cloud Telemetry Lake](https://github.com/LiamCarPer/cloud-telemetry-lake)
 **The Problem:** Ingesting OT telemetry into AWS is often rigid and expensive.
 **The Solution:** A serverless, event-driven pipeline that ingests, parses, and archives OT security events in real-time.
