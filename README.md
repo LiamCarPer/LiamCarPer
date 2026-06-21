@@ -1,7 +1,7 @@
 # Liam Carvajal
-**Security Engineer | OT/ICS & Cloud Detection Engineering**
+**Security Engineer | OT/ICS, Cloud Detection & Solana/Rust Security Tooling**
 
-I build end-to-end security architectures for critical infrastructure. My focus is on bridging the gap between legacy industrial protocols (Modbus, S7comm) and modern cloud-native detection pipelines.
+I build end-to-end security architectures for critical infrastructure and develop Rust-based security tooling for Solana program auditing. My focus bridges legacy industrial protocols (Modbus, PROFINET), cloud-native detection pipelines, and blockchain security analysis.
 
 [LinkedIn](https://www.linkedin.com/in/liam-carvajal-perez/) · [Email](mailto:carvajalperezliam7@gmail.com) · Based in Spain (Open to Remote Europe/USA)
 
@@ -62,6 +62,16 @@ graph TD
 **The Solution:** A memory-efficient, stateful parsing engine for unstructured logs.
 *   **Technical Nuance:** Uses the **Generator pattern** to process multi-gigabyte logs with near-zero RAM overhead. Features a stateful middleware for correlating SSH brute force and web scanning across time windows.
 
+### [Rust Security Toolkit](https://github.com/LiamCarPer/rust-security-toolkit)
+**The Problem:** Manual Solana transaction analysis is slow and error-prone for security reviewers.
+**The Solution:** A Rust CLI for Solana transaction forensics, IDL-aligned account validation, and instruction simulation — enabling rapid triage of suspicious on-chain activity.
+*   **Stack:** Rust, Solana SDK, Anchor, Clap, Tokio. 56 integration tests.
+
+### [Solana Audit Toolkit](https://github.com/LiamCarPer/solana-audit-toolkit)
+**The Problem:** Anchor program auditors lack automated tools for AST-level constraint analysis and state-aware fuzzing.
+**The Solution:** A Rust-based static analyzer (syn) that detects missing signer checks, missing owner constraints, discriminator collisions, and CPI privilege escalation — plus a ProgramTest fuzzer with auto-generated invariants.
+*   **Stack:** Rust, syn, Anchor, SPL Token, ProgramTest, Bankrun, SARIF. 40 tests, 3 shipped audit findings.
+
 ---
 
 ## 🛡️ Security Philosophy
@@ -92,6 +102,10 @@ graph TD
 **OT Security**
 ![Malcolm NDR](https://img.shields.io/badge/Malcolm%20NDR-2F4F4F?style=flat-square) ![Zeek](https://img.shields.io/badge/Zeek-2D2D2D?style=flat-square) ![Scapy](https://img.shields.io/badge/Scapy-FF6B6B?style=flat-square) ![Modbus/TCP](https://img.shields.io/badge/Modbus%2FTCP-004466?style=flat-square)
 ![S7comm](https://img.shields.io/badge/S7comm-003366?style=flat-square) ![Syslog](https://img.shields.io/badge/Syslog-FFD700?style=flat-square)
+
+**Rust & Web3 Security**
+![Rust](https://img.shields.io/badge/Rust-000000?style=flat-square&logo=rust&logoColor=white) ![Solana](https://img.shields.io/badge/Solana-9945FF?style=flat-square&logo=solana&logoColor=white) ![Anchor](https://img.shields.io/badge/Anchor-00D18C?style=flat-square) ![SPL](https://img.shields.io/badge/SPL%20Token-512BD4?style=flat-square)
+![ProgramTest](https://img.shields.io/badge/ProgramTest-1E88E5?style=flat-square) ![Cargo](https://img.shields.io/badge/cargo--audit-F9A03C?style=flat-square) ![SARIF](https://img.shields.io/badge/SARIF-007ACC?style=flat-square)
 
 ---
 
