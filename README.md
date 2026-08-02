@@ -1,122 +1,94 @@
 # Liam Carvajal
-**Security Engineer | OT/ICS, Cloud Detection & Solana/Rust Security Tooling**
 
-I build end-to-end security architectures for critical infrastructure and develop Rust-based security tooling for Solana program auditing. My focus bridges legacy industrial protocols (Modbus, PROFINET), cloud-native detection pipelines, and blockchain security analysis.
+**MLOps & Industrial ML | Gated model promotion · Predictive maintenance · OT-domain systems**
+
+I build production ML systems where a model only reaches production by passing an enforceable quality gate, every prediction carries its lineage back to code, data, and training run, and the metrics match the real cost of being wrong. My domain context comes from OT/ICS environments — I treat industrial signals (vibration, protocols, physics) as first-class features, not noise.
 
 [LinkedIn](https://www.linkedin.com/in/liam-carvajal-perez/) · [Email](mailto:carvajalperezliam7@gmail.com) · Based in Spain (Open to Remote Europe/USA)
 
 ---
 
-## 🏗️ Integrated OT, Cloud & Analytics Ecosystem
-I don't just build security tools; I engineer the data pipelines required to ingest, structure, and analyze high-volume industrial telemetry for advanced heuristics and ML modeling.
+## The Loop
+
+GatedOps is the operations layer: train → evaluate → gate → register → promote → serve, with lineage on every prediction. AetherPdM is the vertical that consumes the same contract for industrial predictive maintenance.
 
 ```mermaid
-graph TD
-    subgraph "On-Prem / Edge (OT-Security-Lab)"
-        PLC[PLCs / HMI] -->|Modbus/TCP| GW[OT Gateway / NDR]
-        GW -->|Suricata/Zeek| ML[Malcolm NDR Pipeline]
+graph LR
+    subgraph GatedOps["GatedOps - Model Operations"]
+        T[Train<br/>config + data] --> E[Evaluate<br/>metrics vs champion]
+        E --> G{Gate<br/>thresholds}
+        G -- fail --> T
+        G -- pass --> R[Register<br/>MLflow version + tag]
+        R --> P[Promote<br/>staging -> prod]
+        P --> S[Serve<br/>production alias only]
+        S --> L[Lineage<br/>manifest: code + data + run]
     end
-
-    subgraph "Cloud Telemetry Lake (AWS/LocalStack)"
-        ML -->|Fluent Bit| S3[S3 Raw Storage]
-        S3 -->|SQS/Lambda| LP[Log Parser Toolkit]
-        LP -->|Detections| DDB[(DynamoDB)]
-        DDB -->|Streams| IR[Automated NIST Reports]
-    end
-
-    style GW fill:#f96,stroke:#333
-    style LP fill:#ff9,stroke:#333
-    style IR fill:#dfd,stroke:#333
+    A[AetherPdM<br/>Industrial PdM] -->|gated models + lineage| S
 ```
 
 ---
 
-## 🛠️ Featured Projects
+## Featured Projects
 
-### [ICS Agentic SOC Pipeline](https://github.com/LiamCarPer/ics-agentic-soc-pipeline)
-**The Problem:** SOC analysts in OT environments drown in high-noise alerts. Generating NIST-aligned incident reports and Suricata rules manually is slow, inconsistent, and doesn't scale.
-**The Solution:** An agentic AI pipeline that detects anomalies via Isolation Forest, enriches them with RAG-augmented OT knowledge (IEC 62443, asset inventories, past incidents), and produces NIST SP 800-61 reports with custom Suricata rules — all without human intervention.
-*   **Engineering Challenge:** Built a deterministic classification layer that routes alerts to the correct analysis path before LLM invocation, eliminating token waste. Made the agent **LLM-agnostic** — swap between GPT-4o-mini and local Ollama models by changing two env vars, no code changes needed.
-*   **Stack:** Python, LangChain/LangGraph, ChromaDB, FastAPI, scikit-learn, OpenAI/OpenRouter, Pytest. 25 deterministic tests pass in CI without API keys.
+### [GatedOps](https://github.com/LiamCarPer/GatedOps)
+**The Problem:** Most teams can train a model; few have a system where a bad model cannot be promoted and every prediction can be traced to its code, data, and training run.
+**The Solution:** A reference MLOps platform — gated train/evaluate/promote/serve with full lineage. Models pass threshold gates vs. the champion before they can be registered (MLflow) and promoted (staging → production alias only); a CI workflow fails the pipeline with a `GateReport` when a model does not clear the bar.
+*   **Engineering Challenge:** An MLflow-free gate engine with challenger/champion rules — generic over any `predict_proba` model, and identical locally, in CI, and against the production stack.
+*   **Stack:** Python, MLflow, FastAPI, Docker Compose, uv, pytest, GitHub Actions.
 
-### [Cloud Telemetry Lake](https://github.com/LiamCarPer/cloud-telemetry-lake)
-**The Problem:** Ingesting OT telemetry into AWS is often rigid and expensive.
-**The Solution:** A serverless, event-driven pipeline that ingests, parses, and archives OT security events in real-time.
-*   **Engineering Challenge:** Solved LocalStack Community constraints by implementing a **Fat-Zip dependency injection** at cold-start and a **dynamic gzip detection** layer for Fluent Bit payloads.
-*   **Stack:** Terraform, AWS Lambda, DynamoDB, S3, Snappy/Parquet, Fluent Bit.
-
-### [OT-NDR-Malcolm-Pipeline](https://github.com/LiamCarPer/OT-NDR-Malcolm-Pipeline)
-**The Problem:** Commercial NDR (Nozomi/Claroty) is cost-prohibitive for many facilities.
-**The Solution:** A production-grade NDR pipeline using CISA Malcolm, Arkime, and Suricata, enriched by a custom **Python SOAR layer**.
-*   **Impact:** Implemented automated **DPI profiling** of Modbus function codes to identify unauthorized register manipulation before it hits the SIEM.
-*   **Stack:** CISA Malcolm, Arkime, Suricata, Python (Scapy/Tshark).
+### [AetherPdM](https://github.com/LiamCarPer/AetherPdM)
+**The Problem:** Unplanned downtime in rotating equipment costs billions annually, and 40-60% of maintenance alerts are noise — rule-based thresholds don't adapt to load or operating conditions.
+**The Solution:** End-to-end predictive maintenance: vibration waveforms → domain-aware signal features → anomaly score + fault classification → REST serving with model versioning, lineage, and operator-facing explanations.
+*   **Engineering Challenge:** Anti-leakage train/test splits, and physics-informed features (envelope analysis, BPFO/BPFI/BSF, band power) that separate real bearing faults from statistical noise.
+*   **Stack:** Python, scikit-learn, SciPy, FastAPI, MLflow, Parquet, Docker, uv, pytest, GitHub Actions.
 
 ### [OT-Security-Lab](https://github.com/LiamCarPer/OT-Security-Lab)
 **The Problem:** You can't test attacks on live water treatment plants.
-**The Solution:** A 5-zone Docker-based simulation of a water filtration facility mapped to the **Purdue Model** and **IEC 62443**.
-*   **Engineering Judgment:** Isolated the Historian in Level 3 to enforce unidirectional data flow, fulfilling IEC 62443 requirements for zone-to-zone restricted access.
-*   **Stack:** OpenPLC, Scada-LTS, Iptables (Zone Firewall), InfluxDB, Grafana.
-
-### [Log Parser Toolkit](https://github.com/LiamCarPer/log-parser-toolkit)
-**The Problem:** SIEM ingestion is only as good as its parser.
-**The Solution:** A memory-efficient, stateful parsing engine for unstructured logs.
-*   **Technical Nuance:** Uses the **Generator pattern** to process multi-gigabyte logs with near-zero RAM overhead. Features a stateful middleware for correlating SSH brute force and web scanning across time windows.
-
-### [Rust Security Toolkit](https://github.com/LiamCarPer/rust-security-toolkit)
-**The Problem:** Manual Solana transaction analysis is slow and error-prone for security reviewers.
-**The Solution:** A Rust CLI for Solana transaction forensics, IDL-aligned account validation, and instruction simulation — enabling rapid triage of suspicious on-chain activity.
-*   **Stack:** Rust, Solana SDK, Anchor, Clap, Tokio. 56 integration tests.
-
-### [Solana Audit Toolkit](https://github.com/LiamCarPer/solana-audit-toolkit)
-**The Problem:** Anchor program auditors lack automated tools for AST-level constraint analysis and state-aware fuzzing.
-**The Solution:** A Rust-based static analyzer (syn) that detects missing signer checks, missing owner constraints, discriminator collisions, and CPI privilege escalation — plus a ProgramTest fuzzer with auto-generated invariants.
-*   **Stack:** Rust, syn, Anchor, SPL Token, ProgramTest, Bankrun, SARIF. 40 tests, 3 shipped audit findings.
+**The Solution:** A 5-zone Docker lab mapped to the Purdue Model and IEC 62443 — protocol-aware detection (Modbus DPI, DNP3), a physics-aware safety monitor that shadows PLC state, and a Grafana/Loki SIEM with SOAR-lite automation.
+*   **Engineering Judgment:** The pipeline is machine-verified end to end: 10 CI gates plus a Compliance Gate that boots the lab, replays attack simulations, and **commits fresh detection evidence on every green run**; SBOMs are keyless-signed via Sigstore. This is where I learned that in OT, a false positive costs more than a miss — the same principle now drives my ML metric design.
+*   **Stack:** Docker, OpenPLC, Scada-LTS, Scapy, DNP3, Grafana/Loki, OPA/conftest, GitHub Actions. [Live site](https://liamcarper.github.io/OT-Security-Lab/) · v1.0.1
 
 ---
 
-## 🛡️ Security Philosophy
-*   **Availability is Paramount:** In OT, a False Positive that triggers a block can be more dangerous than the attack itself. I focus on high-fidelity, physics-aware detection.
-*   **Threat-Informed Defense:** Every detection rule I write is mapped to **MITRE ATT&CK for ICS** (T0831, T0846, T0886) to ensure coverage of actual adversary TTPs.
-*   **Evidence over Opinions:** I value raw PCAPs, verified attack logs, and NIST-aligned incident reports over "box-ticking" compliance.
+## Also
+
+- [Cloud Telemetry Lake](https://github.com/LiamCarPer/cloud-telemetry-lake) — serverless OT telemetry ingest (Terraform, Lambda, S3, DynamoDB, Fluent Bit)
+- [OT-NDR-Malcolm-Pipeline](https://github.com/LiamCarPer/OT-NDR-Malcolm-Pipeline) — CISA Malcolm NDR with a custom Modbus DPI SOAR layer
+- [ICS Agentic SOC Pipeline](https://github.com/LiamCarPer/ics-agentic-soc-pipeline) — agentic, NIST-aligned incident reporting (LangGraph, RAG, Isolation Forest)
+- [Log Parser Toolkit](https://github.com/LiamCarPer/log-parser-toolkit) — generator-based log parsing with near-zero RAM overhead
+- [rust-security-toolkit](https://github.com/LiamCarPer/rust-security-toolkit) & [solana-audit-toolkit](https://github.com/LiamCarPer/solana-audit-toolkit) — Rust/Solana program auditing tooling
 
 ---
 
-## 🧠 Applied AI & Analytical Philosophy
+## How I Build ML Systems
 
-*   **Data Quality is Paramount:** I focus heavily on the data engineering lifecycle. A predictive model in OT is useless without low-latency, highly structured telemetry.
-*   **Physics-Aware Modeling:** False positives in ICS cost downtime. I emphasize high-fidelity feature engineering (e.g., mapping TTPs to MITRE ATT&CK for ICS) to ensure models understand actual industrial context, not just statistical noise.
-*   **Research & Application:** Continuously researching the intersection of Deep Learning and Cybersecurity, including time-series anomaly detection and integrating LLMs (RAG) for automated incident response contextualization.
+- **Gates before production:** a model that fails its quality bar cannot be promoted — the gate proves it, in CI, with artifact-hash integrity.
+- **Domain metrics over vanity accuracy:** I design metrics to match the cost of being wrong (false-alarm rate, downtime) — the availability-first mindset I learned in OT.
+- **Lineage and reproducibility:** every served prediction traces to its exact code, data, and training run; promote/serve is explicit and reversible.
+- **OT literacy as context:** industrial protocols and physics-aware signals (envelope, BPFO, process state) inform how I structure features — not just what I train on.
 
 ---
 
-## 🧰 Technical Arsenal
+## Stack
 
-**AI/ML & Data Engineering**
-![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white) ![Pandas](https://img.shields.io/badge/Pandas-150458?style=flat-square&logo=pandas&logoColor=white) ![PyTorch](https://img.shields.io/badge/PyTorch-EE4C2C?style=flat-square&logo=pytorch&logoColor=white) ![scikit-learn](https://img.shields.io/badge/scikit--learn-F7931E?style=flat-square&logo=scikit-learn&logoColor=white)
-![Pytest](https://img.shields.io/badge/Pytest-0A9EDC?style=flat-square&logo=pytest&logoColor=white) ![Jupyter](https://img.shields.io/badge/Jupyter-F37626?style=flat-square&logo=jupyter&logoColor=white) ![Parquet](https://img.shields.io/badge/Parquet-50ABF1?style=flat-square) ![LLM](https://img.shields.io/badge/LLM-FF6F00?style=flat-square) ![Time Series](https://img.shields.io/badge/Time%20Series-007396?style=flat-square)
+**MLOps & Data**
+![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white) ![scikit-learn](https://img.shields.io/badge/scikit--learn-F7931E?style=flat-square&logo=scikit-learn&logoColor=white) ![SciPy](https://img.shields.io/badge/SciPy-8CAAE6?style=flat-square&logo=scipy&logoColor=white) ![Pandas](https://img.shields.io/badge/Pandas-150458?style=flat-square&logo=pandas&logoColor=white) ![MLflow](https://img.shields.io/badge/MLflow-0194E2?style=flat-square&logo=mlflow&logoColor=white) ![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white) ![pytest](https://img.shields.io/badge/pytest-0A9EDC?style=flat-square&logo=pytest&logoColor=white) ![uv](https://img.shields.io/badge/uv-0B0B0B?style=flat-square&logo=uv&logoColor=white) ![Parquet](https://img.shields.io/badge/Parquet-50ABF1?style=flat-square) ![Time Series](https://img.shields.io/badge/Time%20Series-007396?style=flat-square)
 
 **Cloud & Infrastructure**
-![AWS](https://img.shields.io/badge/AWS-FF9900?style=flat-square&logo=amazonaws&logoColor=white) ![Lambda](https://img.shields.io/badge/AWS%20Lambda-FF9900?style=flat-square&logo=awslambda&logoColor=white) ![S3](https://img.shields.io/badge/S3-569A31?style=flat-square&logo=amazons3&logoColor=white) ![DynamoDB](https://img.shields.io/badge/DynamoDB-4053D6?style=flat-square&logo=amazondynamodb&logoColor=white)
-![Athena](https://img.shields.io/badge/Athena-FF9900?style=flat-square) ![Terraform](https://img.shields.io/badge/Terraform-7B42BC?style=flat-square&logo=terraform&logoColor=white) ![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white) ![LocalStack](https://img.shields.io/badge/LocalStack-51BBFE?style=flat-square)
+![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-2088FF?style=flat-square&logo=githubactions&logoColor=white) ![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white) ![AWS](https://img.shields.io/badge/AWS-FF9900?style=flat-square&logo=amazonaws&logoColor=white) ![Lambda](https://img.shields.io/badge/AWS%20Lambda-FF9900?style=flat-square&logo=awslambda&logoColor=white) ![S3](https://img.shields.io/badge/S3-569A31?style=flat-square&logo=amazons3&logoColor=white) ![DynamoDB](https://img.shields.io/badge/DynamoDB-4053D6?style=flat-square&logo=amazondynamodb&logoColor=white) ![Terraform](https://img.shields.io/badge/Terraform-7B42BC?style=flat-square&logo=terraform&logoColor=white) ![LocalStack](https://img.shields.io/badge/LocalStack-51BBFE?style=flat-square)
 
-**OT Security**
-![Malcolm NDR](https://img.shields.io/badge/Malcolm%20NDR-2F4F4F?style=flat-square) ![Zeek](https://img.shields.io/badge/Zeek-2D2D2D?style=flat-square) ![Scapy](https://img.shields.io/badge/Scapy-FF6B6B?style=flat-square) ![Modbus/TCP](https://img.shields.io/badge/Modbus%2FTCP-004466?style=flat-square)
-![S7comm](https://img.shields.io/badge/S7comm-003366?style=flat-square) ![Syslog](https://img.shields.io/badge/Syslog-FFD700?style=flat-square)
-
-**Rust & Web3 Security**
-![Rust](https://img.shields.io/badge/Rust-000000?style=flat-square&logo=rust&logoColor=white) ![Solana](https://img.shields.io/badge/Solana-9945FF?style=flat-square&logo=solana&logoColor=white) ![Anchor](https://img.shields.io/badge/Anchor-00D18C?style=flat-square) ![SPL](https://img.shields.io/badge/SPL%20Token-512BD4?style=flat-square)
-![ProgramTest](https://img.shields.io/badge/ProgramTest-1E88E5?style=flat-square) ![Cargo](https://img.shields.io/badge/cargo--audit-F9A03C?style=flat-square) ![SARIF](https://img.shields.io/badge/SARIF-007ACC?style=flat-square)
+**OT Domain**
+![IEC 62443](https://img.shields.io/badge/IEC%2062443-005B96?style=flat-square) ![MITRE ATT&CK for ICS](https://img.shields.io/badge/MITRE%20ATT%26CK%20for%20ICS-C8102E?style=flat-square) ![Modbus/TCP](https://img.shields.io/badge/Modbus%2FTCP-004466?style=flat-square) ![DNP3](https://img.shields.io/badge/DNP3-0F4C81?style=flat-square) ![OpenPLC](https://img.shields.io/badge/OpenPLC-1B5E20?style=flat-square) ![Scapy](https://img.shields.io/badge/Scapy-FF6B6B?style=flat-square) ![Malcolm NDR](https://img.shields.io/badge/Malcolm%20NDR-2F4F4F?style=flat-square) ![Zeek](https://img.shields.io/badge/Zeek-2D2D2D?style=flat-square) ![Grafana](https://img.shields.io/badge/Grafana-F46800?style=flat-square&logo=grafana&logoColor=white) ![Loki](https://img.shields.io/badge/Loki-3A6EA5?style=flat-square)
 
 ---
 
-## 📈 Professional Development
-*   **Aligning with Industry Standards:** Actively hardening expertise via **GICSP** (Global Industrial Cyber Security Professional), **BTL1**, and **Security+**.
-*   **Focus:** Advancing my knowledge in Cloud-Native SIEM (Sentinel/Chronicle) and ICS Adversary Emulation (TRITON/Industroyer).
+## Professional Development
+
+- **Now:** MLOps platform practice — gated promotion, model lineage, cloud ML deployment — and industrial ML on vibration/rotating-equipment signals.
+- **Background:** OT/ICS security engineering — IEC 62443 zones and conduits, MITRE ATT&CK for ICS detection mapping, protocol-aware detection, DevSecOps pipelines.
 
 ---
 
-## 🤝 Let's Collaborate
+## Open to
 
-While my full-time focus is defending critical OT architectures, I spend my evenings and weekends immersed in the applied AI/ML community.
-
-I am highly active in the broader engineering space and am always open to connecting regarding joint research initiatives, open-source collaborations, and technical advisory on data engineering and predictive modeling challenges. Whether it's architecting a robust data pipeline or exploring models for anomaly detection, feel free to reach out!
+Building production ML systems — gating, lineage, industrial predictive maintenance — with a background in OT/ICS environments. Open to **MLOps / ML Platform / Industrial ML** roles, remote within Europe/USA. If you're building model infrastructure or industrial analytics, let's talk.
