@@ -4,6 +4,8 @@
 
 I build production ML systems where a model only reaches production by passing an enforceable quality gate, every prediction carries its lineage back to code, data, and training run, and the metrics match the real cost of being wrong. My domain context comes from OT/ICS environments — I treat industrial signals (vibration, protocols, physics) as first-class features, not noise.
 
+Currently **OT SOC Analyst @ Rockwell Automation** — industrial detection and incident response in production environments, building MLOps and industrial ML systems in parallel (GatedOps, AetherPdM).
+
 [LinkedIn](https://www.linkedin.com/in/liam-carvajal-perez/) · [Email](mailto:carvajalperezliam7@gmail.com) · Based in Spain (Open to Remote Europe/USA)
 
 ---
