@@ -4,6 +4,8 @@
 
 I design and defend security architectures for live industrial environments. My focus is the layer most security people skip: OT network architecture — zones and conduits, IT/OT segmentation and DMZ design, secure remote access, and detection that survives real plant constraints. I work across legacy industrial protocols (Modbus, PROFINET, DNP3, OPC UA, IEC 61850), OT NDR/SOC pipelines, and the brownfield reality of changing architecture in a running plant.
 
+Currently **OT SOC Analyst @ Rockwell Automation** — industrial detection and incident response in production OT environments.
+
 [LinkedIn](https://www.linkedin.com/in/liam-carvajal-perez/) · [Email](mailto:carvajalperezliam7@gmail.com) · Spain · **Open to EU remote & B2B / contract engagements**
 
 ---
