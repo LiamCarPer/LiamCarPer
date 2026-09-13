@@ -21,6 +21,12 @@ graph TD
         GW -->|Suricata/Zeek| ML[Malcolm NDR Pipeline]
     end
 
+    subgraph "Detection Engineering"
+        DE[OT Detection Engineering]
+        DE -.->|Sigma → Suricata| GW
+        DE -.->|Sigma → Loki / OpenSearch| ML
+    end
+
     subgraph "Cloud Telemetry Lake (AWS/LocalStack)"
         ML -->|Fluent Bit| S3[S3 Raw Storage]
         S3 -->|SQS/Lambda| LP[Log Parser Toolkit]
@@ -29,6 +35,7 @@ graph TD
     end
 
     style GW fill:#f96,stroke:#333
+    style DE fill:#cfe2ff,stroke:#333
     style LP fill:#ff9,stroke:#333
     style IR fill:#dfd,stroke:#333
 ```
@@ -43,6 +50,13 @@ graph TD
 *   **Architecture Judgment:** Isolated the Historian in Level 3 to enforce unidirectional data flow, fulfilling IEC 62443 requirements for zone-to-zone restricted access.
 *   **GRC Depth:** Full IEC 62443 gap analysis, threat model mapped to MITRE ATT&CK for ICS (T0800–T0890), asset inventory, risk register & BIA (12 scenarios), IR playbook, and STIG-style hardening guides.
 *   **Stack:** OpenPLC, Scada-LTS, Iptables (Zone Firewall), InfluxDB, Grafana, Docker Compose.
+
+### [OT Detection Engineering](https://github.com/LiamCarPer/ot-detection-engineering)
+**The Problem:** OT detection content is written once, deployed by hand, duplicated across the SIEM and the NDR, and never measured — so nobody can say which ATT&CK for ICS techniques are covered, how fast detections fire, or whether a rule change broke one.
+**The Solution:** A detection-as-code pipeline that treats detections as software: OT Sigma rules and native Modbus DPI, validated and converted in CI from a single source of truth, proven against adversary emulation, with coverage and detection metrics derived from the rules themselves.
+*   **Detection Engineering:** Built a pySigma-based validation matcher over the parsed rule model, labeled positive/negative fixtures, and structural governance for native Suricata rules. ATT&CK for ICS coverage and MTTD/false-positive metrics are generated, never hand-maintained.
+*   **Impact:** Verified against a live run of OT-Security-Lab — 4/4 emulation expectations detected at a **2.45 s mean MTTD**, with Loki and OpenSearch queries generated from one rule source.
+*   **Stack:** pySigma/sigma-cli, Sigma, Suricata, Grafana Loki, OpenSearch, JSON Schema, Python, GitHub Actions.
 
 ### [OT-NDR-Malcolm-Pipeline](https://github.com/LiamCarPer/OT-NDR-Malcolm-Pipeline)
 **The Problem:** Commercial NDR (Nozomi/Claroty) is cost-prohibitive for many facilities.
@@ -104,7 +118,7 @@ I use machine learning where it earns its place in OT — high-fidelity, physics
 ![Modbus/TCP](https://img.shields.io/badge/Modbus%2FTCP-004466?style=flat-square) ![PROFINET](https://img.shields.io/badge/PROFINET-003366?style=flat-square) ![DNP3](https://img.shields.io/badge/DNP3-2F4F4F?style=flat-square) ![OPC UA](https://img.shields.io/badge/OPC%20UA-004466?style=flat-square) ![IEC 61850](https://img.shields.io/badge/IEC%2061850-003366?style=flat-square) ![S7comm](https://img.shields.io/badge/S7comm-003366?style=flat-square)
 
 **Detection, Network & Response**
-![Malcolm NDR](https://img.shields.io/badge/Malcolm%20NDR-2F4F4F?style=flat-square) ![Zeek](https://img.shields.io/badge/Zeek-2D2D2D?style=flat-square) ![Suricata](https://img.shields.io/badge/Suricata-FF6B6B?style=flat-square) ![Scapy](https://img.shields.io/badge/Scapy-FF6B6B?style=flat-square) ![Wireshark](https://img.shields.io/badge/Wireshark-1679A7?style=flat-square) ![MITRE ATT&CK ICS](https://img.shields.io/badge/MITRE%20ATT%26CK%20for%20ICS-CC0000?style=flat-square)
+![Sigma](https://img.shields.io/badge/Sigma-2F4F4F?style=flat-square) ![pySigma](https://img.shields.io/badge/pySigma-2F4F4F?style=flat-square) ![Malcolm NDR](https://img.shields.io/badge/Malcolm%20NDR-2F4F4F?style=flat-square) ![Zeek](https://img.shields.io/badge/Zeek-2D2D2D?style=flat-square) ![Suricata](https://img.shields.io/badge/Suricata-FF6B6B?style=flat-square) ![Scapy](https://img.shields.io/badge/Scapy-FF6B6B?style=flat-square) ![Wireshark](https://img.shields.io/badge/Wireshark-1679A7?style=flat-square) ![MITRE ATT&CK ICS](https://img.shields.io/badge/MITRE%20ATT%26CK%20for%20ICS-CC0000?style=flat-square)
 
 **Cloud & Infrastructure**
 ![AWS](https://img.shields.io/badge/AWS-FF9900?style=flat-square&logo=amazonaws&logoColor=white) ![Lambda](https://img.shields.io/badge/AWS%20Lambda-FF9900?style=flat-square&logo=awslambda&logoColor=white) ![Terraform](https://img.shields.io/badge/Terraform-7B42BC?style=flat-square&logo=terraform&logoColor=white) ![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white) ![Kubernetes](https://img.shields.io/badge/Kubernetes-326CE5?style=flat-square&logo=kubernetes&logoColor=white)
