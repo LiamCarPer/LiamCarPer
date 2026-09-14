@@ -53,7 +53,7 @@ graph TD
 
 ### [OT Detection Engineering](https://github.com/LiamCarPer/ot-detection-engineering)
 **The Problem:** OT detection content is written once, deployed by hand, duplicated across the SIEM and the NDR, and never measured — so nobody can say which ATT&CK for ICS techniques are covered, how fast detections fire, or whether a rule change broke one.
-**The Solution:** A detection-as-code pipeline that treats detections as software: OT Sigma rules and native protocol DPI (Modbus, DNP3, OPC UA), with a Rust DNP3 decoder for application-layer events, validated and converted in CI from a single source of truth, proven against adversary emulation, with coverage and detection metrics derived from the rules themselves.
+**The Solution:** A detection-as-code pipeline that treats detections as software: OT Sigma rules and native protocol DPI (Modbus, DNP3, S7comm, OPC UA), with Rust DNP3 and S7comm decoders for application-layer events, validated and converted in CI from a single source of truth, proven against adversary emulation, with coverage and detection metrics derived from the rules themselves.
 *   **Detection Engineering:** Built a pySigma-based validation matcher over the parsed rule model, labeled positive/negative fixtures, and structural governance for native Suricata rules. ATT&CK for ICS coverage and MTTD/false-positive metrics are generated, never hand-maintained.
 *   **Impact:** Verified against a live run of OT-Security-Lab — 4/4 emulation expectations detected at a **2.45 s mean MTTD**, with Loki, OpenSearch, Splunk and Microsoft Sentinel queries generated from one rule source.
 *   **Stack:** pySigma/sigma-cli, Sigma, Suricata, Rust, Grafana Loki, OpenSearch, Splunk, Microsoft Sentinel, JSON Schema, Python, GitHub Actions.
